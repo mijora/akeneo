@@ -4,6 +4,8 @@ require 'semantic_logger'
 require 'webmock/rspec'
 require 'akeneo'
 
+Akeneo::Cache.disabled = true
+
 WebMock.disable_net_connect!
 
 RSpec.configure do |config|
