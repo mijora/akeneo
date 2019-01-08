@@ -3,8 +3,12 @@
 require 'httparty'
 require 'semantic_logger'
 
+require_relative './cache'
+
 module Akeneo
   class ServiceBase
+    prepend Cache
+
     DEFAULT_PAGINATION_TYPE = :search_after
     DEFAULT_PAGINATION_LIMIT = 100
 
@@ -23,8 +27,11 @@ module Akeneo
       { 'Authorization' => "Bearer #{@access_token}" }.merge(json_headers)
     end
 
-    def get_request(path)
-      HTTParty.get("#{@url}/api/rest/v1/#{path}", headers: default_request_headers)
+    def get_request(path, options = {})
+      HTTParty.get(
+        "#{@url}/api/rest/v1/#{path}",
+        options.merge(headers: default_request_headers)
+      )
     end
 
     def pagination_param

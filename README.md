@@ -1,4 +1,5 @@
 # akeneo
+
 API client for accessing Akeneo.
 
 Usage:
@@ -17,3 +18,15 @@ client = Akeneo::API.new(
 client.product(511707)
 # => {"identifier"=>"511707", "family"=>"simple_product", "parent"=>nil, "groups"=>[]...
 ```
+
+## Configuration
+
+### Caching
+
+If you want to use redis as a caching layer you have to set the `REDIS_URL` ENV variable.
+By default the request will be cached for 5 Minutes.
+You can alter the cache expiration via the `AKENEO_CACHE_EXPIRES_IN` ENV variable.
+
+Caching is enabled by default whenever you have redis running.
+You can disable caching completely by setting
+`Akeneo::Cache.disabled = true` before you use the service.
