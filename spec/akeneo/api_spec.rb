@@ -119,6 +119,41 @@ describe Akeneo::API do
     end
   end
 
+  describe '#published_products' do
+    let(:published_product_service) { double(:published_product_service) }
+
+    before do
+      service.access_token = access_token
+      allow(Akeneo::PublishedProductService).to receive(:new) { published_product_service }
+      allow(published_product_service).to receive(:published_products)
+    end
+
+    it 'initializes a product service' do
+      service.published_products
+
+      expect(Akeneo::PublishedProductService).to have_received(:new).with(
+        url: url,
+        access_token: access_token
+      )
+    end
+
+    it 'calls all on the service' do
+      service.published_products
+
+      expect(published_product_service).to have_received(:published_products).with(updated_after: nil)
+    end
+
+    context 'with updated_after' do
+      let(:updated_after) { 'friday' }
+
+      it 'calls all on the service' do
+        service.published_products(updated_after: updated_after)
+
+        expect(published_product_service).to have_received(:published_products).with(updated_after: 'friday')
+      end
+    end
+  end
+
   describe '#brothers_and_sisters' do
     let(:product_service) { double(:product_service) }
     let(:product_id) { 42 }

@@ -12,7 +12,7 @@ module Akeneo
     end
 
     def find(id)
-      response = get_request("products/#{id}")
+      response = get_request("/products/#{id}")
 
       response.parsed_response if response.success?
     end
@@ -29,14 +29,14 @@ module Akeneo
 
     def all(with_family: nil)
       Enumerator.new do |products|
-        url = "#{@url}/api/rest/v1/products?#{pagination_param}&#{limit_param}"
-        url += search_with_family_param(with_family) if with_family
+        path = "/products?#{pagination_param}&#{limit_param}"
+        path += search_with_family_param(with_family) if with_family
 
         loop do
-          response = HTTParty.get(url, headers: default_request_headers)
+          response = get_request(path)
           extract_collection_items(response).each { |product| products << product }
-          url = extract_fetch_url(response)
-          break unless url
+          path = extract_next_page_path(response)
+          break unless path
         end
       end
     end
