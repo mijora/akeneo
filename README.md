@@ -1,3 +1,5 @@
+[![CircleCI](https://circleci.com/gh/awniemeyer/akeneo.svg?style=svg&circle-token=1d727274a65e61f2bd5f2208f5c33bf532ebaac5)](https://circleci.com/gh/awniemeyer/akeneo)
+
 # akeneo
 
 API client for accessing Akeneo.
