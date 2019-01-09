@@ -2,11 +2,10 @@
 
 lib = File.expand_path('lib', __dir__)
 $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
-require 'akeneo'
 
 Gem::Specification.new do |spec|
   spec.name          = 'akeneo'
-  spec.version       = Akeneo::VERSION
+  spec.version       = '1.1.0'
   spec.authors       = ['AWN Dev Team']
   spec.email         = ['edv@awn.de']
 
