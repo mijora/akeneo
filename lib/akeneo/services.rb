@@ -9,6 +9,7 @@ require_relative './measure_family_service'
 require_relative './product_model_service'
 require_relative './product_service'
 require_relative './published_product_service'
+require_relative './media_files_service'
 
 module Akeneo
   module Services
@@ -51,6 +52,10 @@ module Akeneo
 
     def published_product_service
       PublishedProductService.new(url: url, access_token: fresh_access_token)
+    end
+
+    def media_files_service
+      MediaFilesService.new(url: url, access_token: fresh_access_token)
     end
   end
 end

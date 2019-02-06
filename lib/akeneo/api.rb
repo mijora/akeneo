@@ -66,6 +66,10 @@ module Akeneo
       image_service.download(code)
     end
 
+    def download_file(code)
+      media_files_service.download(code)
+    end
+
     def product_parent_or_grand_parent(code)
       product_parent = product_model_service.find(code)
 

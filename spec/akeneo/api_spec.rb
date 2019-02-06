@@ -427,6 +427,32 @@ describe Akeneo::API do
     end
   end
 
+  describe '#download_file' do
+    let(:file_code) { 'file_code' }
+    let(:file_service) { double(:file_service) }
+
+    before do
+      service.access_token = access_token
+      allow(Akeneo::MediaFilesService).to receive(:new) { file_service }
+      allow(file_service).to receive(:download)
+    end
+
+    it 'initializes an file service' do
+      service.download_file(file_code)
+
+      expect(Akeneo::MediaFilesService).to have_received(:new).with(
+        url: url,
+        access_token: access_token
+      )
+    end
+
+    it 'calls download on the service' do
+      service.download_file(file_code)
+
+      expect(file_service).to have_received(:download).with('file_code')
+    end
+  end
+
   describe '#product_parent_or_grand_parent' do
     let(:parent_code) { 'parent_code' }
     let(:product_model_service) { double(:product_model_service) }
