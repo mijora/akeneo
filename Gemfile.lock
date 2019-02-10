@@ -3,6 +3,7 @@ PATH
   specs:
     akeneo (1.4.0)
       httparty
+      mime-types
       redis
       semantic_logger
 
@@ -17,7 +18,7 @@ GEM
       safe_yaml (~> 1.0.0)
     diff-lcs (1.3)
     hashdiff (0.3.8)
-    httparty (0.16.3)
+    httparty (0.16.4)
       mime-types (~> 3.0)
       multi_xml (>= 0.5.2)
     jaro_winkler (1.5.2)
@@ -56,7 +57,7 @@ GEM
       unicode-display_width (~> 1.4.0)
     ruby-progressbar (1.10.0)
     safe_yaml (1.0.4)
-    semantic_logger (4.3.1)
+    semantic_logger (4.4.0)
       concurrent-ruby (~> 1.0)
     unicode-display_width (1.4.1)
     webmock (3.5.1)
