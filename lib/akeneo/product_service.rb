@@ -27,10 +27,9 @@ module Akeneo
       load_products(akeneo_product, akeneo_product['family'], parents)
     end
 
-    def all(with_family: nil)
+    def all(with_family: nil, with_completeness: nil, updated_after: nil)
       Enumerator.new do |products|
-        path = "/products?#{pagination_param}&#{limit_param}"
-        path += search_with_family_param(with_family) if with_family
+        path = build_path(with_family, with_completeness, updated_after)
 
         loop do
           response = get_request(path)
@@ -47,8 +46,13 @@ module Akeneo
 
     private
 
-    def search_with_family_param(family)
-      "&search={\"family\":[{\"operator\":\"IN\",\"value\":[\"#{family}\"]}]}"
+    def build_path(family, completeness, updated_after)
+      path = "/products?#{pagination_param}&#{limit_param}"
+      path + search_params(
+        family: family,
+        completeness: completeness,
+        updated_after: updated_after
+      )
     end
 
     def load_akeneo_parent(code)

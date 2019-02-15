@@ -245,6 +245,63 @@ describe Akeneo::ProductService do
       )
     end
 
+    context 'with family' do
+      let(:family) { 'some_family' }
+      let(:search_params) do
+        CGI.escape(
+          {
+            family: [{
+              operator: 'IN',
+              value: [family]
+            }]
+          }.to_json
+        )
+      end
+      let(:request_url) do
+        [
+          'http://akeneo.api/api/rest/v1/products?',
+          'limit=100&',
+          'pagination_type=search_after&',
+          "search=#{search_params}"
+        ].join
+      end
+
+      it 'adds the search filter' do
+        products = service.all(with_family: family)
+
+        products.each(&:inspect)
+
+        expect(WebMock).to have_requested(:get, request_url)
+      end
+    end
+
+    context 'with completness' do
+      let(:completness) do
+        {
+          operator: '=',
+          value: 100,
+          scope: 'ecommerce'
+        }
+      end
+      let(:search_params) { CGI.escape({ completeness: [completness] }.to_json) }
+      let(:request_url) do
+        [
+          'http://akeneo.api/api/rest/v1/products?',
+          'limit=100&',
+          'pagination_type=search_after&',
+          "search=#{search_params}"
+        ].join
+      end
+
+      it 'adds the search filter' do
+        products = service.all(with_completeness: completness)
+
+        products.each(&:inspect)
+
+        expect(WebMock).to have_requested(:get, request_url)
+      end
+    end
+
     context 'with next page' do
       let(:next_url) { 'http://akeneo.api/api/rest/v1/products/next_url' }
       let(:response_body) do

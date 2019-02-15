@@ -19,6 +19,20 @@ module Akeneo
 
     private
 
+    def search_params(family: nil, completeness: nil, updated_after: nil)
+      return '' if family.nil? && completeness.nil? && updated_after.nil?
+
+      "&search=#{search_params_hash(family, completeness, updated_after).to_json}"
+    end
+
+    def search_params_hash(family, completeness, updated_after)
+      {}.tap do |hash|
+        hash[:family] = [{ operator: 'IN', value: [family] }] if family
+        hash[:completeness] = [completeness] if completeness
+        hash[:updated] = [{ operator: '>', value: updated_after.strftime('%F %T') }] if updated_after
+      end
+    end
+
     def json_headers
       { 'Content-Type' => 'application/json' }
     end

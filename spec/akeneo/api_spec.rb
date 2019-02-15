@@ -105,16 +105,22 @@ describe Akeneo::API do
     it 'calls all on the service' do
       service.products
 
-      expect(product_service).to have_received(:all).with(with_family: nil)
+      expected = { with_family: nil, with_completeness: nil, updated_after: nil }
+
+      expect(product_service).to have_received(:all).with(expected)
     end
 
-    context 'with family' do
-      let(:family) { 'a_fam' }
+    context 'with search params' do
+      it 'calls all on the service with all parameters' do
+        params = {
+          with_family: 'family',
+          with_completeness: 'completeness',
+          updated_after: 'updated_after'
+        }
 
-      it 'calls all on the service' do
-        service.products(with_family: family)
+        service.products(params)
 
-        expect(product_service).to have_received(:all).with(with_family: 'a_fam')
+        expect(product_service).to have_received(:all).with(params)
       end
     end
   end

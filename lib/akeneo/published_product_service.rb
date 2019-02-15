@@ -12,7 +12,7 @@ module Akeneo
     def published_products(updated_after: nil)
       Enumerator.new do |products|
         path = "/published-products?#{pagination_param}"
-        path += "&#{search_param(updated_after)}" if updated_after
+        path += search_params(updated_after: updated_after)
 
         loop do
           response = get_request(path)

@@ -12,12 +12,7 @@ module Akeneo
 
     def initialize(url:, client_id:, secret:, username:, password:)
       @url = url
-      authorization_service.authorize!(
-        client_id: client_id,
-        secret: secret,
-        username: username,
-        password: password
-      )
+      authorization_service.authorize!(client_id: client_id, secret: secret, username: username, password: password)
     end
 
     def fresh_access_token
@@ -28,8 +23,12 @@ module Akeneo
       product_service.find(sku)
     end
 
-    def products(with_family: nil)
-      product_service.all(with_family: with_family)
+    def products(with_family: nil, with_completeness: nil, updated_after: nil)
+      product_service.all(
+        with_family: with_family,
+        with_completeness: with_completeness,
+        updated_after: updated_after
+      )
     end
 
     def published_products(updated_after: nil)
