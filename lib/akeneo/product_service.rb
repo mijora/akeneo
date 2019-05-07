@@ -62,7 +62,8 @@ module Akeneo
     end
 
     def load_parents(family, akeneo_parent, akeneo_grand_parent)
-      return [] if akeneo_parent.nil? || akeneo_grand_parent.nil?
+      return [] if akeneo_parent.nil?
+      return [akeneo_parent] if akeneo_grand_parent.nil?
 
       @product_model_service.all(with_family: family).select do |parent|
         parent['parent'] == akeneo_grand_parent['code']
