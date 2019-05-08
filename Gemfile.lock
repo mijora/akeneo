@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    akeneo (1.6.0)
+    akeneo (1.6.1)
       httparty
       mime-types
       redis
@@ -13,18 +13,18 @@ GEM
     addressable (2.5.2)
       public_suffix (>= 2.0.2, < 4.0)
     ast (2.4.0)
-    concurrent-ruby (1.1.4)
+    concurrent-ruby (1.1.5)
     crack (0.4.3)
       safe_yaml (~> 1.0.0)
     diff-lcs (1.3)
     hashdiff (0.3.8)
-    httparty (0.16.4)
+    httparty (0.17.0)
       mime-types (~> 3.0)
       multi_xml (>= 0.5.2)
     jaro_winkler (1.5.2)
     mime-types (3.2.2)
       mime-types-data (~> 3.2015)
-    mime-types-data (3.2018.0812)
+    mime-types-data (3.2019.0331)
     multi_xml (0.6.0)
     parallel (1.12.1)
     parser (2.5.3.0)
@@ -33,7 +33,7 @@ GEM
     public_suffix (3.0.3)
     rainbow (3.0.0)
     rake (12.3.2)
-    redis (4.1.0)
+    redis (4.1.1)
     rspec (3.8.0)
       rspec-core (~> 3.8.0)
       rspec-expectations (~> 3.8.0)
@@ -57,7 +57,7 @@ GEM
       unicode-display_width (~> 1.4.0)
     ruby-progressbar (1.10.0)
     safe_yaml (1.0.4)
-    semantic_logger (4.4.0)
+    semantic_logger (4.5.0)
       concurrent-ruby (~> 1.0)
     unicode-display_width (1.4.1)
     webmock (3.5.1)
