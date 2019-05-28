@@ -7,6 +7,44 @@ describe Akeneo::FamilyService do
   let(:access_token) { 'access_token' }
   let(:service)      { described_class.new(url: url, access_token: access_token) }
 
+  describe '#all' do
+    let(:request_url) { 'http://akeneo.api/api/rest/v1/families?limit=100' }
+    let(:response_body) do
+      {
+        '_embedded' => {
+          'items' => []
+        }
+      }.to_json
+    end
+    let(:response_status) { 200 }
+    let(:response_headers) { { 'Content-Type' => 'application/json' } }
+
+    before do
+      stub_request(:get, request_url).to_return(
+        status: response_status,
+        headers: response_headers,
+        body: response_body
+      )
+    end
+
+    it 'makes all families request' do
+      families = service.all
+
+      families.each(&:inspect)
+
+      expect(WebMock).to have_requested(
+        :get,
+        'http://akeneo.api/api/rest/v1/families?limit=100'
+      )
+    end
+
+    it 'it returns the response body with items key' do
+      response = service.all
+
+      expect(response).to be_a(Enumerator)
+    end
+  end
+
   describe '#find' do
     let(:family_code) { 'a_family_code' }
     let(:request_url) { "http://akeneo.api/api/rest/v1/families/#{family_code}" }

@@ -19,6 +19,29 @@ client = Akeneo::API.new(
 
 client.product(511707)
 # => {"identifier"=>"511707", "family"=>"simple_product", "parent"=>nil, "groups"=>[]...
+
+Some methods with parameters is inside services classes, and be called that way
+client.family_service.all
+# => Returns a Enumeration to list all families
+
+client.product_service.create(object)
+# => Returns a JSON with status code relative to what happened
+201: CREATED
+"{"line":1,"identifier":"bot","status_code":201}"
+
+204: NO CONTENT/UPDATED
+"{"line":1,"identifier":"top","status_code":204}"
+
+422: UNPROCESSABLE ENTITY/ERROR
+In this case, returns message too
+"{"line":1,"identifier":"bot","status_code":422,"message":"Validation failed.","errors":[{"property":"values","message":"The value Top 2 vezes is already set on another product for the unique attribute nome_marketing","attribute":"nome_marketing","locale":null,"scope":null}]}"
+```
+
+Returns options from attribute
+```
+options = client.attribute_service.options(codigo_do_atributo)
+
+options["_embedded"]["items"].map{|a| [a['code'], a['labels']]}
 ```
 
 ## Configuration
