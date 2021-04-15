@@ -65,8 +65,8 @@ module Akeneo
       image_service.create_reference(code, locale, file, filename)
     end
 
-    def download_image(code,asset_family,variation_scopable=nil)
-      image_service.download(code,asset_family,variation_scopable)
+    def download_image(code, asset_family, variation_scopable = nil)
+      image_service.download(code, asset_family, variation_scopable)
     end
 
     def download_file(code)
