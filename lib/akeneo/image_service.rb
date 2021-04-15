@@ -5,7 +5,7 @@ require 'json'
 require 'mime/types'
 require 'net/http'
 require 'uri'
-
+require 'logger'
 require_relative './service_base.rb'
 
 module Akeneo
@@ -18,8 +18,8 @@ module Akeneo
       response.parsed_response if response.success?
     end
 
-    def download(code)
-      download_request(code)
+    def download(code,asset_family,variation_scopable=nil)
+      download_request(code,asset_family,variation_scopable)
     end
 
     def create_asset(code, options = {})
@@ -65,12 +65,17 @@ module Akeneo
       )
     end
 
-    def download_request(code)
-      response = get_request("/assets/#{code}/reference-files/no-locale/download")
+    def download_request(code,asset_family,variation_scopable=nil)
+      response = get_request("/asset-families/#{asset_family}/assets/#{code}")
+      if response['values'].key?("variation_scopable") && variation_scopable != nil
+        image_data = response['values']['variation_scopable'].find { |x| x['channel'] == variation_scopable}
+      else
+        image_data = response['values']['media'].first() if response['values'].key?("media")
+      end
+      image_response = get_request("/asset-media-files/#{image_data['data']}")
+      Base64.strict_encode64(image_response.body) if response.success?
 
-      Base64.strict_encode64(response.body) if response.success?
-    rescue StandardError => e
-      SemanticLogger['AkeneoService#download_image_request'].info("Error downloading file: #{e}")
+
     end
   end
 end

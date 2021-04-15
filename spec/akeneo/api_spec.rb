@@ -409,6 +409,8 @@ describe Akeneo::API do
 
   describe '#download_image' do
     let(:image_code) { 'image_code' }
+    let(:asset_family) {'asset_family'}
+    let(:variation_scopable) {'ecommerce'}
     let(:image_service) { double(:image_service) }
 
     before do
@@ -417,8 +419,16 @@ describe Akeneo::API do
       allow(image_service).to receive(:download)
     end
 
-    it 'initializes an image service' do
-      service.download_image(image_code)
+    it 'initializes an image service with variation_scopable' do
+      service.download_image(image_code, asset_family, variation_scopable)
+
+      expect(Akeneo::ImageService).to have_received(:new).with(
+        url: url,
+        access_token: access_token
+      )
+    end
+    it 'initializes an image service without variation_scopable' do
+      service.download_image(image_code, asset_family)
 
       expect(Akeneo::ImageService).to have_received(:new).with(
         url: url,
@@ -426,10 +436,16 @@ describe Akeneo::API do
       )
     end
 
-    it 'calls download on the service' do
-      service.download_image(image_code)
+    it 'calls download on the service with variation_scopable' do
+      service.download_image(image_code, asset_family, variation_scopable)
 
-      expect(image_service).to have_received(:download).with('image_code')
+      expect(image_service).to have_received(:download).with('image_code', 'asset_family', 'ecommerce')
+    end
+
+    it 'calls download on the service without variation_scopable' do
+      service.download_image(image_code, asset_family)
+
+      expect(image_service).to have_received(:download).with('image_code', 'asset_family',nil)
     end
   end
 
