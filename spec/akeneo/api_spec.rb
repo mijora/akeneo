@@ -409,8 +409,8 @@ describe Akeneo::API do
 
   describe '#download_image' do
     let(:image_code) { 'image_code' }
-    let(:asset_family) {'asset_family'}
-    let(:variation_scopable) {'ecommerce'}
+    let(:asset_family) { 'asset_family' }
+    let(:variation_scopable) { 'ecommerce' }
     let(:image_service) { double(:image_service) }
 
     before do
@@ -445,7 +445,7 @@ describe Akeneo::API do
     it 'calls download on the service without variation_scopable' do
       service.download_image(image_code, asset_family)
 
-      expect(image_service).to have_received(:download).with('image_code', 'asset_family',nil)
+      expect(image_service).to have_received(:download).with('image_code', 'asset_family', nil)
     end
   end
 

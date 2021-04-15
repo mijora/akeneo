@@ -50,17 +50,21 @@ describe Akeneo::ImageService do
 
   describe '#download' do
     let(:image_code) { 'an_image_code' }
-    let(:asset_family) {'an_asset_family'}
-    let(:response_body_image_path) { 'huhu'}
-    let(:response_body_image_download) { 'blablabla'}
-    let(:variation_scopable) {'ecommerce'}
-    let(:response_body_get_asset) { { 'code' => image_code, 'values' => {
-      'media' => [{'data' => response_body_image_path}]
-    }}.to_json }
-    let(:response_body_get_asset_variation) { { 'code' => image_code, 'values' => {
-      'media' => [{'data' => response_body_image_path}],
-      'variation_scopable' => [{'data' => response_body_image_path, 'channel' => variation_scopable}]
-    }}.to_json }
+    let(:asset_family) { 'an_asset_family' }
+    let(:response_body_image_path) { 'huhu' }
+    let(:response_body_image_download) { 'blablabla' }
+    let(:variation_scopable) { 'ecommerce' }
+    let(:response_body_get_asset) do
+      { 'code' => image_code, 'values' => { 'media' => [{ 'data' => response_body_image_path }] } }.to_json
+    end
+    let(:response_body_get_asset_variation) do
+      {
+        'code' => image_code, 'values' => {
+          'media' => [{ 'data' => response_body_image_path }],
+          'variation_scopable' => [{ 'data' => response_body_image_path, 'channel' => variation_scopable }]
+        }
+      }.to_json
+    end
     let(:request_url_get_asset) { "http://akeneo.api/api/rest/v1/asset-families/#{asset_family}/assets/#{image_code}" }
     let(:request_url_image_download) { "http://akeneo.api/api/rest/v1/asset-media-files/#{response_body_image_path}" }
     let(:response_status) { 200 }
@@ -77,7 +81,6 @@ describe Akeneo::ImageService do
         body: response_body_image_download,
         headers: response_headers
       )
-
     end
 
     it 'makes the reference file request without variation_scopable' do
@@ -96,31 +99,30 @@ describe Akeneo::ImageService do
       service.download(image_code, asset_family, variation_scopable)
 
       expect(WebMock).to have_requested(
-                           :get,
-                           request_url_get_asset
-                         )
+        :get,
+        request_url_get_asset
+      )
       response = service.download(image_code, asset_family, variation_scopable)
       expected = Base64.strict_encode64(response_body_image_download)
       expect(response).to eq(expected)
     end
 
     it 'makes the reference file request with variation_scopable and existing variable_scopable in response' do
-      stub_request(:get, request_url_get_asset).to_return(
+      stub_request(
+        :get, request_url_get_asset
+      ).to_return(
         status: response_status,
         headers: response_headers,
         body: response_body_get_asset_variation
       )
+
       service.download(image_code, asset_family, variation_scopable)
 
-      expect(WebMock).to have_requested(
-                           :get,
-                           request_url_get_asset
-                         )
+      expect(WebMock).to have_requested(:get, request_url_get_asset)
       response = service.download(image_code, asset_family, variation_scopable)
       expected = Base64.strict_encode64(response_body_image_download)
       expect(response).to eq(expected)
     end
-
 
     context 'with failure' do
       let(:response_status) { 401 }
