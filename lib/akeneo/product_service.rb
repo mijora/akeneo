@@ -54,12 +54,13 @@ module Akeneo
 
     private
 
-    def build_path(family, completeness, updated_after)
+    def build_path(family, completeness, updated_after, options = {})
       path = "/products?#{pagination_param}&#{limit_param}"
       path + search_params(
         family: family,
         completeness: completeness,
-        updated_after: updated_after
+        updated_after: updated_after,
+        options: options
       )
     end
 
