@@ -21,7 +21,7 @@ module Akeneo
     private
 
     def search_params(family: nil, completeness: nil, updated_after: nil, options: {})
-      return '' if family.nil? && completeness.nil? && updated_after.nil?
+      return '' if family.nil? && completeness.nil? && updated_after.nil? && options.empty?
 
       "&search=#{search_params_hash(family, completeness, updated_after, options).to_json}"
     end

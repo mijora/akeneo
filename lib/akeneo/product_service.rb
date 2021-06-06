@@ -27,9 +27,9 @@ module Akeneo
       load_products(akeneo_product, akeneo_product['family'], parents)
     end
 
-    def all(with_family: nil, with_completeness: nil, updated_after: nil)
+    def all(with_family: nil, with_completeness: nil, updated_after: nil, options: {})
       Enumerator.new do |products|
-        path = build_path(with_family, with_completeness, updated_after)
+        path = build_path(with_family, with_completeness, updated_after, options)
 
         loop do
           response = get_request(path)
