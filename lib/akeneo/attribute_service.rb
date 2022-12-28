@@ -23,8 +23,8 @@ module Akeneo
       response.parsed_response if response.success?
     end
 
-    def options(attribute_code)
-      response = get_request("/attributes/#{attribute_code}/options")
+    def options(attribute_code, page = 1)
+      response = get_request("/attributes/#{attribute_code}/options?page=#{page}")
 
       response.parsed_response if response.success?
     end
