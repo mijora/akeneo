@@ -23,10 +23,18 @@ module Akeneo
       response.parsed_response if response.success?
     end
 
-    def options(attribute_code, page = 1)
-      response = get_request("/attributes/#{attribute_code}/options?page=#{page}")
 
-      response.parsed_response if response.success?
+    def options(attribute_code)
+      Enumerator.new do |attributes|
+        request_url = "/attributes/#{attribute_code}/options"
+
+        loop do
+          response = get_request(request_url)
+          extract_collection_items(response).each { |attribute| attributes << attribute }
+          request_url = extract_next_page_path(response)
+          break unless request_url
+        end
+      end
     end
 
     def option(code, option_code)
