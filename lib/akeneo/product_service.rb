@@ -29,7 +29,7 @@ module Akeneo
 
     def all(with_family: nil, with_completeness: nil, updated_after: nil, options: {}, identifier: [])
       Enumerator.new do |products|
-        path = build_path(with_family, with_completeness, updated_after, options,)
+        path = build_path(with_family, with_completeness, updated_after, options, identifier)
 
         loop do
           response = get_request(path)
