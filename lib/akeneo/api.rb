@@ -23,12 +23,13 @@ module Akeneo
       product_service.find(code)
     end
 
-    def products(with_family: nil, with_completeness: nil, updated_after: nil, options: {})
+    def products(with_family: nil, with_completeness: nil, updated_after: nil, options: {}, skus: [])
       product_service.all(
         with_family: with_family,
         with_completeness: with_completeness,
         updated_after: updated_after,
-        options: options
+        options: options,
+        skus: skus
       )
     end
 

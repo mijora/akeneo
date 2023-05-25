@@ -20,17 +20,18 @@ module Akeneo
 
     private
 
-    def search_params(family: nil, completeness: nil, updated_after: nil, options: {})
-      return '' if family.nil? && completeness.nil? && updated_after.nil? && options.empty?
+    def search_params(family: nil, completeness: nil, updated_after: nil, options: {}, skus: [])
+      return '' if family.nil? && completeness.nil? && updated_after.nil? && options.empty? && skus.empty?
 
-      "&search=#{search_params_hash(family, completeness, updated_after, options).to_json}"
+      "&search=#{search_params_hash(family, completeness, updated_after, options, skus).to_json}"
     end
 
-    def search_params_hash(family, completeness, updated_after, options)
+    def search_params_hash(family, completeness, updated_after, options, skus)
       {}.tap do |hash|
         hash[:family] = [{ operator: 'IN', value: [family] }] if family
         hash[:completeness] = [completeness] if completeness
         hash[:updated] = [{ operator: '>', value: updated_after.strftime('%F %T') }] if updated_after
+        hash[:sku] = [{ operator: 'IN', value: skus }] if skus.any?
         options.each do |key, val|
           hash[key] = [{ operator: '=', value: val }]
         end
