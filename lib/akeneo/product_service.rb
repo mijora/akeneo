@@ -27,7 +27,7 @@ module Akeneo
       load_products(akeneo_product, akeneo_product['family'], parents)
     end
 
-    def all(with_family: nil, with_completeness: nil, updated_after: nil, options: {}, identifer: [])
+    def all(with_family: nil, with_completeness: nil, updated_after: nil, options: {}, identifier: [])
       Enumerator.new do |products|
         path = build_path(with_family, with_completeness, updated_after, options,)
 
@@ -54,14 +54,14 @@ module Akeneo
 
     private
 
-    def build_path(family, completeness, updated_after, options = {}, identifer = [])
+    def build_path(family, completeness, updated_after, options = {}, identifier = [])
       path = "/products?#{pagination_param}&#{limit_param}"
       path + search_params(
         family: family,
         completeness: completeness,
         updated_after: updated_after,
         options: options,
-        identifer: identifer
+        identifier: identifier
       )
     end
 
