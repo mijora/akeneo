@@ -31,7 +31,7 @@ module Akeneo
         hash[:family] = [{ operator: 'IN', value: [family] }] if family
         hash[:completeness] = [completeness] if completeness
         hash[:updated] = [{ operator: '>', value: updated_after.strftime('%F %T') }] if updated_after
-        hash[:sku] = [{ operator: 'IN', value: identifier }] if identifier.any?
+        hash[:identifier] = [{ operator: 'IN', value: identifier }] if identifier.any?
         options.each do |key, val|
           hash[key] = [{ operator: '=', value: val }]
         end
