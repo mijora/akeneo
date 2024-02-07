@@ -33,7 +33,11 @@ module Akeneo
         hash[:updated] = [{ operator: '>', value: updated_after.strftime('%F %T') }] if updated_after
         hash[:identifier] = [{ operator: 'IN', value: identifier }] if identifier.any?
         options.each do |key, val|
-          hash[key] = [{ operator: '=', value: val }]
+          if val.is_a?(Array)
+            hash[key] = [{ operator: 'IN', value: val }]
+          else
+            hash[key] = [{ operator: '=', value: val }]
+          end
         end
       end
     end
