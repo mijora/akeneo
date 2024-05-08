@@ -42,5 +42,9 @@ module Akeneo
 
       response.parsed_response if response.success?
     end
+
+    def create_or_update_option(attribute, code, options)
+      patch_request("/attributes/#{attribute}/options/#{code}", body: options.to_json)
+    end
   end
 end

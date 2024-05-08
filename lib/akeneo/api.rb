@@ -111,6 +111,10 @@ module Akeneo
       attribute_service.option(code, option_code)
     end
 
+    def create_or_update_attribute_option(attribute:, code:, options:)
+      attribute_service.create_or_update_option(attribute, code, options)
+    end
+
     def measure_family(code)
       measure_family_service.find(code)
     end
