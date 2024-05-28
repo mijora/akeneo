@@ -139,6 +139,10 @@ module Akeneo
       categories(category['parent'], categories: categories)
     end
 
+    def create_or_update_category(code:, options:)
+      category_service.create_or_update(code, options)
+    end
+
     private
 
     def find_attribute_code_for_level(family_variant, level)
