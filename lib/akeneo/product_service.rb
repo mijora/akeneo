@@ -41,12 +41,11 @@ module Akeneo
     end
 
     def paged(with_family: nil, with_completeness: nil, updated_after: nil, options: {}, identifier: [], next_path: nil)
-      Enumerator.new do |products|
-        path = next_path ? next_path : build_path(with_family, with_completeness, updated_after, options, identifier)
-        response = get_request(path)
-        extract_collection_items(response).each { |product| products << product }
-        next_path = extract_next_page_path(response)
-      end
+      products = Enumerator.new
+      path = next_path ? next_path : build_path(with_family, with_completeness, updated_after, options, identifier)
+      response = get_request(path)
+      extract_collection_items(response).each { |product| products << product }
+      next_path = extract_next_page_path(response)
       return { products: products, next_path: next_path}
     end
 
