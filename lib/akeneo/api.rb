@@ -33,14 +33,14 @@ module Akeneo
       )
     end
 
-    def products_paged(with_family: nil, with_completeness: nil, updated_after: nil, options: {}, identifier: [], search_after: nil)
+    def products_paged(with_family: nil, with_completeness: nil, updated_after: nil, options: {}, identifier: [], next_path: nil)
       product_service.paged(
         with_family: with_family,
         with_completeness: with_completeness,
         updated_after: updated_after,
         options: options,
         identifier: identifier,
-        search_after: search_after
+        next_path: next_path
       )
     end
 
