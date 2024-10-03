@@ -40,6 +40,16 @@ module Akeneo
       end
     end
 
+    def paged(with_family: nil, with_completeness: nil, updated_after: nil, options: {}, identifier: [], search_after: nil)
+      Enumerator.new do |products|
+        path = build_path(with_family, with_completeness, updated_after, options, identifier, search_after)
+        response = get_request(path)
+        extract_collection_items(response).each { |product| products << product }
+        next_path = extract_next_page_path(response)
+      end
+      return { products: products, next_path: next_path}
+    end
+
     def create_or_update(code, options)
       patch_request("/products/#{code}", body: options.to_json)
     end
@@ -54,8 +64,9 @@ module Akeneo
 
     private
 
-    def build_path(family, completeness, updated_after, options = {}, identifier = [])
+    def build_path(family, completeness, updated_after, options = {}, identifier = [], search_after = nil)
       path = "/products?#{pagination_param}&#{limit_param}"
+      path = "#{path}&search_after=#{search_after}" if search_after.present?
       path + search_params(
         family: family,
         completeness: completeness,
