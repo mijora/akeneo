@@ -23,7 +23,7 @@ module Akeneo
       authorization_service.fresh_access_token
     end
 
-    def access_token
+    def get_access_token
       access_token
     end
 
