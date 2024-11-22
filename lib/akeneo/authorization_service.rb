@@ -12,16 +12,20 @@ module Akeneo
       @url = url
     end
 
-    def authorize!(client_id:, secret:, username:, password:)
+    def authorize!(client_id:, secret:, username:, password:, access_token: nil)
       @client_id = client_id
       @secret = secret
-      options = {
-        body: authorization_body(username, password),
-        headers: json_headers.merge(basic_authorization_header)
-      }
-      response = HTTParty.post("#{@url}/api/oauth/v1/token", options)
-      store_tokens!(response)
-      response
+      if access_token.nil?
+        options = {
+          body: authorization_body(username, password),
+          headers: json_headers.merge(basic_authorization_header)
+        }
+        response = HTTParty.post("#{@url}/api/oauth/v1/token", options)
+        store_tokens!(response)
+        response
+      else
+        set_access_token!(access_token)
+      end
     end
 
     def fresh_access_token

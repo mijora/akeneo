@@ -12,11 +12,7 @@ module Akeneo
 
     def initialize(url:, client_id:, secret:, username:, password:, access_token: nil)
       @url = url
-      if access_token.nil?
-        authorization_service.authorize!(client_id: client_id, secret: secret, username: username, password: password)
-      else
-        authorization_service.set_access_token!(access_token)
-      end
+      authorization_service.authorize!(client_id: client_id, secret: secret, username: username, password: password, access_token: access_token)
     end
 
     def fresh_access_token
