@@ -29,6 +29,10 @@ module Akeneo
       @access_token
     end
 
+    def set_access_token!(access_token)
+      @access_token = access_token
+    end
+
     private
 
     def refresh!
@@ -53,10 +57,6 @@ module Akeneo
 
       @access_token = response['access_token']
       @refresh_token = response['refresh_token']
-    end
-
-    def set_access_token!(access_token)
-      @access_token = access_token
     end
 
     def basic_authorization_header
