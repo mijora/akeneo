@@ -55,6 +55,10 @@ module Akeneo
       @refresh_token = response['refresh_token']
     end
 
+    def set_access_token!(access_token)
+      @access_token = access_token
+    end
+
     def basic_authorization_header
       auth_hash = Base64.strict_encode64("#{@client_id}:#{@secret}")
 

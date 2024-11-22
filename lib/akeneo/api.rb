@@ -15,7 +15,7 @@ module Akeneo
       if access_token.nil?
         authorization_service.authorize!(client_id: client_id, secret: secret, username: username, password: password)
       else
-        @access_token = access_token
+        authorization_service.set_access_token!(access_token)
       end
     end
 
@@ -23,8 +23,8 @@ module Akeneo
       authorization_service.fresh_access_token
     end
 
-    def get_access_token
-      access_token
+    def current_access_token
+      authorization_service.access_token
     end
 
     def product(code)
