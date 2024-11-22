@@ -12,10 +12,10 @@ module Akeneo
       @url = url
     end
 
-    def authorize!(client_id:, secret:, username:, password:, access_token: nil)
+    def authorize!(client_id:, secret:, username:, password:, access_token: nil, refresh_token: nil)
       @client_id = client_id
       @secret = secret
-      if access_token.nil?
+      if access_token.nil? || refresh_token.nil?
         options = {
           body: authorization_body(username, password),
           headers: json_headers.merge(basic_authorization_header)
@@ -24,7 +24,9 @@ module Akeneo
         store_tokens!(response)
         response
       else
-        set_access_token!(access_token)
+        @access_token = access_token
+        @refresh_token = refresh_token
+        @last_refresh = Time.now
       end
     end
 
@@ -33,13 +35,10 @@ module Akeneo
       @access_token
     end
 
-    def set_access_token!(access_token)
-      @access_token = access_token
-    end
-
     private
 
     def refresh!
+      p 'refresh'
       return unless refresh_necessary?
 
       options = {
@@ -53,10 +52,12 @@ module Akeneo
     end
 
     def refresh_necessary?
+      p 'refresh_necessary'
       (Time.now.to_i - @last_refresh.to_i) > REFRESH_RATE_IN_SECONDS
     end
 
     def store_tokens!(response)
+      p 'store tokens'
       raise response.to_hash['message'] unless response.ok?
 
       @access_token = response['access_token']

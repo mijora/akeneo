@@ -10,9 +10,9 @@ module Akeneo
 
     attr_accessor :access_token, :url, :last_refresh
 
-    def initialize(url:, client_id:, secret:, username:, password:, access_token: nil)
+    def initialize(url:, client_id:, secret:, username:, password:, access_token: nil, refresh_token: nil)
       @url = url
-      authorization_service.authorize!(client_id: client_id, secret: secret, username: username, password: password, access_token: access_token)
+      authorization_service.authorize!(client_id: client_id, secret: secret, username: username, password: password, access_token: access_token, refresh_token: refresh_token)
     end
 
     def fresh_access_token
@@ -21,6 +21,10 @@ module Akeneo
 
     def current_access_token
       authorization_service.access_token
+    end
+
+    def current_refresh_token
+      authorization_service.refresh_token
     end
 
     def product(code)
