@@ -29,7 +29,7 @@ module Akeneo
     def search_params_hash(family, completeness, updated_after, options, identifier)
       {}.tap do |hash|
         hash[:family] = [{ operator: 'IN', value: [family] }] if family
-        hash[:completeness] = [completeness] if completeness
+        hash[:with_completenesses] = [completeness] if completeness
         hash[:updated] = [{ operator: '>', value: updated_after.strftime('%F %T') }] if updated_after
         hash[:identifier] = [{ operator: 'IN', value: identifier }] if identifier.any?
         options.each do |key, val|
