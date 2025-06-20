@@ -68,7 +68,7 @@ module Akeneo
       path = "/products?#{pagination_param}&#{limit_param}"
       path + search_params(
         family: family,
-        with_completenesses: completeness,
+        with_completeness: completeness,
         updated_after: updated_after,
         options: options,
         identifier: identifier
