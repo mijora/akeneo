@@ -30,7 +30,7 @@ module Akeneo
     def all(with_family: nil, with_completeness: nil, updated_after: nil, options: {}, identifier: [])
       Enumerator.new do |products|
         path = build_path(with_family, with_completeness, updated_after, options, identifier)
-
+        p path
         loop do
           response = get_request(path)
           extract_collection_items(response).each { |product| products << product }
@@ -42,6 +42,7 @@ module Akeneo
 
     def paged(with_family: nil, with_completeness: nil, updated_after: nil, options: {}, identifier: [], next_path: nil)
       path = next_path ? next_path : build_path(with_family, with_completeness, updated_after, options, identifier)
+      p path
       response = get_request(path)
       next_path = extract_next_page_path(response)
       products = Enumerator.new do |data|
