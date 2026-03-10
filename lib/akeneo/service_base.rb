@@ -35,6 +35,10 @@ module Akeneo
         options.each do |key, val|
           if val.is_a?(Array)
             hash[key] = [{ operator: 'IN', value: val }]
+          elsif val == 'is_empty'
+            hash[key] = [{ operator: 'EMPTY' }]
+          elsif val == 'is_not_empty'
+            hash[key] = [{ operator: 'NOT EMPTY' }]
           else
             hash[key] = [{ operator: '=', value: val }]
           end
