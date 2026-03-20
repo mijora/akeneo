@@ -22,7 +22,7 @@ module Akeneo
 
     def search_params(family: nil, completeness: nil, updated_after: nil, options: {}, identifier: [])
       return '' if family.nil? && completeness.nil? && updated_after.nil? && options.empty? && identifier.empty?
-      p "&search=#{search_params_hash(family, completeness, updated_after, options, identifier).to_json}"
+      #p "&search=#{search_params_hash(family, completeness, updated_after, options, identifier).to_json}"
       "&search=#{search_params_hash(family, completeness, updated_after, options, identifier).to_json}"
     end
 
@@ -34,7 +34,7 @@ module Akeneo
         hash[:identifier] = [{ operator: 'IN', value: identifier }] if identifier.any?
         options.each do |key, val|
           value = val
-          if val.is_a?(Hash) && val.key?(:value) && val.key?(:locales)
+          if val.is_a?(Hash) && val.key?(:value) && (val.key?(:locale) || val.key?(:scope))
             value = val[:value]
           end
           if value.is_a?(Array)
@@ -46,8 +46,8 @@ module Akeneo
           else
             hash[key] = [{ operator: '=', value: value }]
           end
-          if val.is_a?(Hash) && val.key?(:locales)
-            hash[key].first[:locales] = val[:locales]
+          if val.is_a?(Hash) && val.key?(:locale)
+            hash[key].first[:locale] = val[:locale]
           end
           if val.is_a?(Hash) && val.key?(:scope)
             hash[key].first[:scope] = val[:scope]
