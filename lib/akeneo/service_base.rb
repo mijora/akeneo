@@ -33,14 +33,24 @@ module Akeneo
         hash[:updated] = [{ operator: '>', value: updated_after.strftime('%F %T') }] if updated_after
         hash[:identifier] = [{ operator: 'IN', value: identifier }] if identifier.any?
         options.each do |key, val|
-          if val.is_a?(Array)
-            hash[key] = [{ operator: 'IN', value: val }]
-          elsif val == 'is_empty'
+          value = val
+          if val.is_a?(Hash) && val.key?(:value) && val.key?(:locales)
+            value = val[:value]
+          end
+          if value.is_a?(Array)
+            hash[key] = [{ operator: 'IN', value: value }]
+          elsif value == 'is_empty'
             hash[key] = [{ operator: 'EMPTY' }]
-          elsif val == 'is_not_empty'
+          elsif value == 'is_not_empty'
             hash[key] = [{ operator: 'NOT EMPTY' }]
           else
-            hash[key] = [{ operator: '=', value: val }]
+            hash[key] = [{ operator: '=', value: value }]
+          end
+          if val.is_a?(Hash) && val.key?(:locales)
+            hash[key].first[:locales] = val[:locales]
+          end
+          if val.is_a?(Hash) && val.key?(:scope)
+            hash[key].first[:scope] = val[:scope]
           end
         end
       end
