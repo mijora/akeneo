@@ -17,6 +17,16 @@ module Akeneo
       end
     end
 
+    def paged(next_path: nil)
+      path = next_path ? next_path : "/families?#{limit_param}"
+      response = get_request(path)
+      next_path = extract_next_page_path(response)
+      families = Enumerator.new do |data|
+        extract_collection_items(response).each { |family| data << family }
+      end
+      return { families: families, next_path: next_path}
+    end
+
     def find(code)
       response = get_request("/families/#{code}")
 
