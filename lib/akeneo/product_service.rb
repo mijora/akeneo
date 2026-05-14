@@ -54,7 +54,7 @@ module Akeneo
     end
 
     def update_products(options)
-      patch_request("/products", body: options.to_json)
+      patch_for_collection_request("/products", body: options.to_json)
     end
 
     def create(options)
