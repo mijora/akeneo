@@ -64,6 +64,10 @@ module Akeneo
       product_service.create_or_update(code, options)
     end
 
+    def update_products(options:)
+      product_service.update_products(options)
+    end
+
     def create_product(options:)
       product_service.create(options)
     end

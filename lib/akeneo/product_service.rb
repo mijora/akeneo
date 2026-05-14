@@ -53,6 +53,10 @@ module Akeneo
       patch_request("/products/#{code}", body: options.to_json)
     end
 
+    def update_products(options)
+      patch_request("/products", body: options.to_json)
+    end
+
     def create(options)
       post_request('/products', body: options.to_json)
     end
