@@ -54,7 +54,11 @@ module Akeneo
     end
 
     def update_products(options)
-      patch_for_collection_request("/products", body: options.to_json)
+      options = [options] unless options.is_a?(Array)
+      body = options.map do |option|
+        option.to_json
+      end.join("\n")
+      patch_for_collection_request("/products", body: body)
     end
 
     def create(options)
